@@ -1,4 +1,4 @@
-app = 'auto-message-scheduler-morning-fog-4551'
+app = 'auto-message-scheduler'
 primary_region = 'ord'
 
 [build]

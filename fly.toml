@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for auto-message-scheduler-morning-fog-4551 on 2025-07-03T10:54:46-04:00
+# fly.toml app configuration file generated for auto-message-scheduler-crimson-wave-7525 on 2025-07-03T12:37:17-04:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'auto-message-scheduler-morning-fog-4551'
+app = 'auto-message-scheduler'
 primary_region = 'ord'
 
 [build]
