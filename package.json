@@ -1,0 +1,17 @@
+{
+  "name": "auto-message-scheduler",
+  "version": "1.0.0",
+  "description": "Runs scheduled Discord webhook messages based on user-defined times.",
+  "main": "scheduler.js",
+  "type": "module",
+  "scripts": {
+    "start": "node scheduler.js",
+    "generate-cron": "node generate-fly-cron.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^14.14.1"
+  }
+}
