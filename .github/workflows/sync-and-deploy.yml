@@ -33,7 +33,7 @@ jobs:
 
     - name: Download latest webhooks.json
       run: |
-        gdown --id 1DpqBHB_-0XxI-ev2-3YT3PONCfFe03Oz \
+        gdown --id 12RANwESLxYGsxT53SbHVK4XmjOcWipYI \
               --no-cookies \
               --output webhooks.json
 
