@@ -1,9 +1,12 @@
 app = "auto-message-scheduler"
 primary_region = "ord"
 
+[experimental]
+  disable_http_service = true
+
 [build]
   dockerfile = "Dockerfile"
-  
+
 [[vm]]
   memory = "1gb"
   cpu_kind = "shared"

@@ -1,17 +1,15 @@
+# Use a slim Node.js base image
 FROM node:20-slim
 
+# Set working directory
 WORKDIR /app
 
-# Copy and install production dependencies
+# Copy package files and install only production dependencies
 COPY package*.json ./
 RUN npm ci --omit=dev
 
-# Copy app files
+# Copy the rest of the project
 COPY . .
 
-# Set env and entrypoint for scheduler
-ENV NODE_ENV=production
-ENV TZ=UTC
-
-ENTRYPOINT ["node"]
-CMD ["scheduler.js"]  # Fly cron will append the HH:MM argument
+# Prevent crash on default start — this gets overridden by cron commands
+CMD ["sleep", "infinity"]
