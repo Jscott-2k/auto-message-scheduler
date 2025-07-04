@@ -13,5 +13,33 @@ primary_region = "ord"
   cpus = 1
 
 [[cron]]
-schedule = "00 18 * * *"
-command = "node scheduler.js 18:00"
+schedule = "00 02 * * *"
+command = "node scheduler.js 02:00"
+
+[[cron]]
+schedule = "11 04 * * *"
+command = "node scheduler.js 04:11"
+
+[[cron]]
+schedule = "00 13 * * *"
+command = "node scheduler.js 13:00"
+
+[[cron]]
+schedule = "00 14 * * *"
+command = "node scheduler.js 14:00"
+
+[[cron]]
+schedule = "35 20 * * *"
+command = "node scheduler.js 20:35"
+
+[[cron]]
+schedule = "45 21 * * *"
+command = "node scheduler.js 21:45"
+
+[[cron]]
+schedule = "00 22 * * *"
+command = "node scheduler.js 22:00"
+
+[[cron]]
+schedule = "00 23 * * *"
+command = "node scheduler.js 23:00"

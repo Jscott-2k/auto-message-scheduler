@@ -2,11 +2,60 @@
   {
     "id": "1390317874932879490",
     "token": "nySctf50QltJYtk-elnwW2R8v_8UtHOefhsqMskgVXffyriHR8TDfkPWOi5pLkrmBNp9",
-    "username": "",
+    "username": "reugoathbreaker",
     "schedules": [
       {
-        "time": "18:00",
-        "message": "Part 2 Example Hook"
+        "time": "13:00",
+        "message": "Morning Boss"
+      },
+      {
+        "time": "02:00",
+        "message": "G'night boss"
+      }
+    ]
+  },
+  {
+    "id": "1390317874932879490",
+    "token": "nySctf50QltJYtk-elnwW2R8v_8UtHOefhsqMskgVXffyriHR8TDfkPWOi5pLkrmBNp9",
+    "username": "reugoathbreaker",
+    "schedules": [
+      {
+        "time": "14:00",
+        "message": "/roll 2d20"
+      },
+      {
+        "time": "20:35",
+        "message": "/roll 2d20"
+      }
+    ]
+  },
+  {
+    "id": "1390317874932879490",
+    "token": "nySctf50QltJYtk-elnwW2R8v_8UtHOefhsqMskgVXffyriHR8TDfkPWOi5pLkrmBNp9",
+    "username": "reugoathbreaker",
+    "schedules": [
+      {
+        "time": "21:45",
+        "message": "Good afternoon! :)"
+      },
+      {
+        "time": "04:11",
+        "message": "Good night!"
+      }
+    ]
+  },
+  {
+    "id": "1390317874932879490",
+    "token": "nySctf50QltJYtk-elnwW2R8v_8UtHOefhsqMskgVXffyriHR8TDfkPWOi5pLkrmBNp9",
+    "username": "reugoathbreaker",
+    "schedules": [
+      {
+        "time": "22:00",
+        "message": "5:50pm test"
+      },
+      {
+        "time": "23:00",
+        "message": "6:00pm test"
       }
     ]
   }
