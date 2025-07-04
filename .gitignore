@@ -1,3 +1,5 @@
-node_modules/
-.env
-webhooks.json
+node_modules
+.git
+fly.toml
+fly.base.toml
+*.log

@@ -1,17 +1,17 @@
-# Use official lightweight Node.js image
-FROM node:18-alpine
+FROM node:20-slim
 
-# Set working directory inside container
 WORKDIR /app
 
-# Copy package.json and package-lock.json first (for caching)
+# Copy and install production dependencies
 COPY package*.json ./
+RUN npm ci --omit=dev
 
-# Install dependencies (production only)
-RUN npm install --production
-
-# Copy rest of the project files
+# Copy app files
 COPY . .
 
-# Default command: run scheduler.js with time argument passed by Fly cron
-ENTRYPOINT ["node", "scheduler.js"]
+# Set env and entrypoint for scheduler
+ENV NODE_ENV=production
+ENV TZ=UTC
+
+ENTRYPOINT ["node"]
+CMD ["scheduler.js"]  # Fly cron will append the HH:MM argument

@@ -8,9 +8,9 @@
     "start": "node scheduler.js",
     "generate-cron": "node generate-fly-cron.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "engines": {
+    "node": ">=20"
+  },
   "dependencies": {
     "discord.js": "^14.14.1"
   }
