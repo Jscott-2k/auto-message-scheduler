@@ -11,3 +11,7 @@ primary_region = "ord"
   memory = "1gb"
   cpu_kind = "shared"
   cpus = 1
+  processes = ["cron"]
+  
+[processes]
+  cron = "node scheduler.js"
