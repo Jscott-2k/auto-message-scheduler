@@ -13,5 +13,5 @@ primary_region = "ord"
   cpus = 1
 
 [[cron]]
-schedule = "00 14 * * *"
-command = "node scheduler.js 14:00"
+schedule = "00 18 * * *"
+command = "node scheduler.js 18:00"
