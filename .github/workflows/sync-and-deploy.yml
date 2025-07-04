@@ -2,20 +2,22 @@ name: Sync Webhooks and Deploy
 
 on:
   schedule:
-    - cron: '*/15 * * * *'  # every 15 minutes
-  workflow_dispatch:  # manual trigger
+    - cron: '*/30 * * * *'   # every 30 minutes
+  workflow_dispatch:          # manual trigger
 
 permissions:
-  contents: write   # allows committing back to the repo
+  contents: write             # allow commits from the action
 
 jobs:
   sync-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
+      # ─────────── repo checkout ───────────
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
+      # ─────────── Node & deps (for generate‑cron) ───────────
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
@@ -25,30 +27,49 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # ─────────── pull latest webhooks.json ───────────
       - name: Download latest webhooks.json
         run: |
-          curl -L -o webhooks.json \
+          curl -sSL -o webhooks.json \
             "https://drive.google.com/uc?export=download&id=1DpqBHB_-0XxI-ev2-3YT3PONCfFe03Oz"
 
+      # ─────────── regenerate fly.toml cron blocks ──────
       - name: Generate fly.toml cron entries
         run: npm run generate-cron
 
-      - name: Commit and push changes
+      # ─────────── detect file changes ───────────
+      - name: Detect changes
+        id: diff
         run: |
-          git config user.name "github-actions"
+          if git diff --quiet webhooks.json fly.toml; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "No change detected"
+          else
+            echo "changed=true"  >> $GITHUB_OUTPUT
+            echo "Changes detected"
+          fi
+
+      # ─────────── commit only when changed ───────────
+      - name: Commit and push changes
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          git config user.name  "github-actions"
           git config user.email "actions@github.com"
           git add webhooks.json fly.toml
-          git diff --quiet && git diff --staged --quiet || git commit -m "Update webhooks and cron schedule"
+          git commit -m "Update webhooks and cron schedule"
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      # ─────────── deploy only when changed ───────────
       - name: Set up Fly CLI
+        if: steps.diff.outputs.changed == 'true'
         uses: superfly/flyctl-actions/setup-flyctl@master
         with:
           version: latest
 
       - name: Deploy to Fly.io
+        if: steps.diff.outputs.changed == 'true'
         run: flyctl deploy --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
