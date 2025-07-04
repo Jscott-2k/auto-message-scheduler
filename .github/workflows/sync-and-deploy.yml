@@ -2,74 +2,78 @@ name: Sync Webhooks and Deploy
 
 on:
   schedule:
-    - cron: '*/30 * * * *'   # every 30 minutes
-  workflow_dispatch:          # manual trigger
+    - cron: '*/30 * * * *'      # every 30 min
+  workflow_dispatch:            # manual trigger
 
 permissions:
-  contents: write             # allow commits from the action
+  contents: write               # allow commits from the action
 
 jobs:
   sync-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # ─────────── repo checkout ───────────
-      - name: Checkout repository
-        uses: actions/checkout@v4
+    # ─────────── repo checkout ───────────
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
-      # ─────────── Node & deps (for generate‑cron) ───────────
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
+    # ─────────── Node (for generate‑cron) ───────────
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
 
-      - name: Install dependencies
-        run: npm ci
+    - name: Install npm dependencies
+      run: npm ci
 
-      # ─────────── pull latest webhooks.json ───────────
-      - name: Download latest webhooks.json
-        run: |
-          curl -sSL -o webhooks.json \
-            "https://drive.google.com/uc?export=download&id=1DpqBHB_-0XxI-ev2-3YT3PONCfFe03Oz"
+    # ─────────── install gdown & pull webhooks.json ───────────
+    - name: Install gdown
+      run: pip install --no-cache-dir gdown
 
-      # ─────────── regenerate fly.toml cron blocks ──────
-      - name: Generate fly.toml cron entries
-        run: npm run generate-cron
+    - name: Download latest webhooks.json
+      run: |
+        gdown --id 1DpqBHB_-0XxI-ev2-3YT3PONCfFe03Oz \
+              --no-cookies \
+              --output webhooks.json
 
-      # ─────────── detect file changes ───────────
-      - name: Detect changes
-        id: diff
-        run: |
-          if git diff --quiet webhooks.json fly.toml; then
-            echo "changed=false" >> $GITHUB_OUTPUT
-            echo "No change detected"
-          else
-            echo "changed=true"  >> $GITHUB_OUTPUT
-            echo "Changes detected"
-          fi
+    # ─────────── regenerate fly.toml cron blocks ───────────
+    - name: Generate fly.toml cron entries
+      run: npm run generate-cron
 
-      # ─────────── commit only when changed ───────────
-      - name: Commit and push changes
-        if: steps.diff.outputs.changed == 'true'
-        run: |
-          git config user.name  "github-actions"
-          git config user.email "actions@github.com"
-          git add webhooks.json fly.toml
-          git commit -m "Update webhooks and cron schedule"
-          git push
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    # ─────────── detect file changes ───────────
+    - name: Detect changes
+      id: diff
+      run: |
+        if git diff --quiet webhooks.json fly.toml; then
+          echo "changed=false" >> $GITHUB_OUTPUT
+          echo "No change detected"
+        else
+          echo "changed=true"  >> $GITHUB_OUTPUT
+          echo "Changes detected"
+        fi
 
-      # ─────────── deploy only when changed ───────────
-      - name: Set up Fly CLI
-        if: steps.diff.outputs.changed == 'true'
-        uses: superfly/flyctl-actions/setup-flyctl@master
-        with:
-          version: latest
+    # ─────────── commit only when changed ───────────
+    - name: Commit and push changes
+      if: steps.diff.outputs.changed == 'true'
+      run: |
+        git config user.name  "github-actions"
+        git config user.email "actions@github.com"
+        git add webhooks.json fly.toml
+        git commit -m "Update webhooks and cron schedule"
+        git push
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Deploy to Fly.io
-        if: steps.diff.outputs.changed == 'true'
-        run: flyctl deploy --remote-only
-        env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+    # ─────────── deploy only when changed ───────────
+    - name: Set up Fly CLI
+      if: steps.diff.outputs.changed == 'true'
+      uses: superfly/flyctl-actions/setup-flyctl@master
+      with:
+        version: latest
+
+    - name: Deploy to Fly.io
+      if: steps.diff.outputs.changed == 'true'
+      run: flyctl deploy --remote-only
+      env:
+        FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
