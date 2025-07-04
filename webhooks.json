@@ -2,11 +2,11 @@
   {
     "id": "1390317874932879490",
     "token": "nySctf50QltJYtk-elnwW2R8v_8UtHOefhsqMskgVXffyriHR8TDfkPWOi5pLkrmBNp9",
-    "username": "reugoathbreaker",
+    "username": "",
     "schedules": [
       {
         "time": "18:00",
-        "message": "/roll 2d20"
+        "message": "Part 2 Example Hook"
       }
     ]
   }
