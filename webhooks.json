@@ -58,5 +58,20 @@
         "message": "6:00pm test"
       }
     ]
+  },
+  {
+    "id": "1390317874932879490",
+    "token": "nySctf50QltJYtk-elnwW2R8v_8UtHOefhsqMskgVXffyriHR8TDfkPWOi5pLkrmBNp9",
+    "username": "reugoathbreaker",
+    "schedules": [
+      {
+        "time": "23:45",
+        "message": "6:45pm test"
+      },
+      {
+        "time": "00:00",
+        "message": "7:00pm test"
+      }
+    ]
   }
 ]
