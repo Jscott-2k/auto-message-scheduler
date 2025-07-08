@@ -81,7 +81,7 @@
     "schedules": [
       {
         "time": "03:00",
-        "message": "Autoatic Message"
+        "message": "Automatic Message"
       },
       {
         "time": "03:30",
