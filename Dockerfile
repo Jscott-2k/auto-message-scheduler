@@ -11,5 +11,4 @@ RUN npm ci --omit=dev
 # Copy the rest of the project
 COPY . .
 
-# Prevent crash on default start — this gets overridden by cron commands
-CMD ["sleep", "infinity"]
+CMD ["node", "scheduler.js"]

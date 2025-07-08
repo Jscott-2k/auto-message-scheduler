@@ -12,6 +12,3 @@ primary_region = "ord"
   cpu_kind = "shared"
   cpus = 1
   processes = ["cron"]
-  
-[processes]
-  cron = "sleep infinity"
