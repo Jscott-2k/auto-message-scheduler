@@ -7,12 +7,6 @@ primary_region = "ord"
 [build]
   dockerfile = "Dockerfile"
 
-[[vm]]
-  memory = "1gb"
-  cpu_kind = "shared"
-  cpus = 1
-  processes = ["cron"]
-
 [checks]
   # No health checks, avoids crashing on startup and keeps VM off
 
