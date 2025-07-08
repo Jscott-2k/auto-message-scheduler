@@ -14,4 +14,4 @@ primary_region = "ord"
   processes = ["cron"]
   
 [processes]
-  cron = "node scheduler.js"
+  cron = "sleep infinity"   # keeps the VM alive
