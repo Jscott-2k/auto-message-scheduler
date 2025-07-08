@@ -88,5 +88,20 @@
         "message": "Automatic Message"
       }
     ]
+  },
+  {
+    "id": "1390317874932879490",
+    "token": "nySctf50QltJYtk-elnwW2R8v_8UtHOefhsqMskgVXffyriHR8TDfkPWOi5pLkrmBNp9",
+    "username": "reugoathbreaker",
+    "schedules": [
+      {
+        "time": "16:30",
+        "message": "Automatic Message"
+      },
+      {
+        "time": "17:00",
+        "message": "Its high noon"
+      }
+    ]
   }
 ]
