@@ -63,5 +63,13 @@ schedule = "00 23 * * *"
 command = "node scheduler.js 23:00"
 
 [[cron]]
+schedule = "30 23 * * *"
+command = "node scheduler.js 23:30"
+
+[[cron]]
+schedule = "35 23 * * *"
+command = "node scheduler.js 23:35"
+
+[[cron]]
 schedule = "45 23 * * *"
 command = "node scheduler.js 23:45"
