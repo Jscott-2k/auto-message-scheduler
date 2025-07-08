@@ -13,6 +13,9 @@ primary_region = "ord"
   cpus = 1
   processes = ["cron"]
 
+[checks]
+  # No health checks, avoids crashing on startup and keeps VM off
+  
 [[cron]]
 schedule = "00 00 * * *"
 command = "node scheduler.js 00:00"

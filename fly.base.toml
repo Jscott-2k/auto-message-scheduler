@@ -12,3 +12,6 @@ primary_region = "ord"
   cpu_kind = "shared"
   cpus = 1
   processes = ["cron"]
+
+[checks]
+  # No health checks, avoids crashing on startup and keeps VM off
