@@ -14,4 +14,4 @@ primary_region = "ord"
   processes = ["cron"]
   
 [processes]
-  cron = "sleep infinity"   # keeps the VM alive
+  cron = "sleep infinity"

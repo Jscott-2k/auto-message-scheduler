@@ -14,7 +14,7 @@ primary_region = "ord"
   processes = ["cron"]
   
 [processes]
-  cron = "node scheduler.js"
+  cron = "sleep infinity"
 
 [[cron]]
 schedule = "00 00 * * *"
