@@ -103,5 +103,20 @@
         "message": "Its high noon"
       }
     ]
+  },
+  {
+    "id": "1390317874932879490",
+    "token": "nySctf50QltJYtk-elnwW2R8v_8UtHOefhsqMskgVXffyriHR8TDfkPWOi5pLkrmBNp9",
+    "username": "reugoathbreaker",
+    "schedules": [
+      {
+        "time": "23:30",
+        "message": "6:30 test"
+      },
+      {
+        "time": "23:35",
+        "message": "6:35 test"
+      }
+    ]
   }
 ]
