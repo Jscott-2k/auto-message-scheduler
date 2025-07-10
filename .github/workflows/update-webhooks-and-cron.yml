@@ -34,9 +34,9 @@ jobs:
     - name: Read cron times into output
       id: cron_times
       run: |
-        echo 'cron<<EOF' >> $GITHUB_OUTPUT
+        echo "cron<<EOF" >> $GITHUB_OUTPUT
         cat .cron-times.txt >> $GITHUB_OUTPUT
-        echo 'EOF' >> $GITHUB_OUTPUT
+        echo "EOF" >> $GITHUB_OUTPUT
 
     - name: Update scheduler.yml schedule
       uses: gr2m/set-cron-schedule-action@v1
