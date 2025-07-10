@@ -5,7 +5,7 @@
   "main": "scheduler.js",
   "scripts": {
     "start": "node scheduler.js",
-    "generate-cron": "node generate-fly-cron.js"
+    "generate-scheduler": "node generate-scheduler-yml.js"
   },
   "engines": {
     "node": ">=20"

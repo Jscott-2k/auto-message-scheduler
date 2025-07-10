@@ -7,14 +7,10 @@
 const fs = require('fs');
 const { WebhookClient } = require('discord.js');
 
-// 1. Parse CLI argument
-const scheduledTime = process.argv[2];
-if (!/^\d{2}:\d{2}$/.test(scheduledTime || '')) {
-  console.error('Usage: node scheduler.js HH:MM  (UTC 24-hour format)');
-  process.exit(1);
-}
+const now = new Date();
+const scheduledTime = now.toISOString().slice(11, 16); // HH:MM UTC
 
-// 2. Load webhooks.json
+// Load webhooks.json
 let users;
 try {
   users = JSON.parse(fs.readFileSync('./webhooks.json', 'utf8'));
@@ -26,7 +22,7 @@ try {
 console.log(`Running scheduler for ${scheduledTime} UTC`);
 let sent = 0;
 
-// 3. Send messages scheduled for this time
+// Send messages scheduled for this time
 (async () => {
   for (const user of users) {
     const matches = (user.schedules || []).filter(s => s.time === scheduledTime);
