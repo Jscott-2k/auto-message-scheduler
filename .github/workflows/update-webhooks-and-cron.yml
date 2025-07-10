@@ -1,7 +1,7 @@
-name: Update Webhooks and Schedule
+name: Update Webhooks and Cron
 
 on:
-  workflow_dispatch:  # manual or API trigger only
+  workflow_dispatch:
 
 jobs:
   update-webhooks:
@@ -28,26 +28,30 @@ jobs:
       run: |
         gdown --id 12RANwESLxYGsxT53SbHVK4XmjOcWipYI --no-cookies --output webhooks.json
 
-    - name: Generate scheduler workflow (if applicable)
-      run: npm run generate-scheduler
+    - name: Generate cron-times.txt from webhooks
+      run: node generate-cron-times.js
 
-    - name: Check for changes
-      id: check_changes
+    - name: Read cron times into output
+      id: cron_times
       run: |
-        if git diff --quiet webhooks.json .github/workflows/scheduler.yml; then
-          echo "changed=false" >> $GITHUB_OUTPUT
-        else
-          echo "changed=true" >> $GITHUB_OUTPUT
-        fi
+        echo 'cron<<EOF' >> $GITHUB_OUTPUT
+        cat .cron-times.txt >> $GITHUB_OUTPUT
+        echo 'EOF' >> $GITHUB_OUTPUT
 
-    - name: Commit and push changes
-      if: steps.check_changes.outputs.changed == 'true'
+    - name: Update scheduler.yml schedule
+      uses: gr2m/set-cron-schedule-action@v1
+      with:
+        token: ${{ secrets.GH_PAT }}
+        workflow: .github/workflows/scheduler.yml
+        cron: ${{ steps.cron_times.outputs.cron }}
+
+    - name: Commit updated webhooks.json
       env:
         GH_PAT: ${{ secrets.GH_PAT }}
       run: |
         git config user.name "github-actions"
         git config user.email "actions@github.com"
-        git add webhooks.json .github/workflows/scheduler.yml
-        git commit -m "Update webhooks.json and scheduler workflow"
+        git add webhooks.json
+        git commit -m "Update webhooks.json"
         git remote set-url origin https://x-access-token:${GH_PAT}@github.com/Jscott-2k/auto-message-scheduler.git
         git push origin main
