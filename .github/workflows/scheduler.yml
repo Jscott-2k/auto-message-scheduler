@@ -25,6 +25,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    
+    - name: Show current UTC time
+      run: date -u
+
     - name: Checkout code
       uses: actions/checkout@v4
 
