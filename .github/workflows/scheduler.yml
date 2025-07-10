@@ -1,22 +1,42 @@
 name: Auto Message Scheduler
+
 on:
   schedule:
-    - cron: >-
-        00 00 * * * 00 02 * * * 00 03 * * * 30 03 * * * 35 03 * * * 40 03 * * *
-        11 04 * * * 00 13 * * * 00 14 * * * 30 16 * * * 00 17 * * * 35 20 * * *
-        45 21 * * * 00 22 * * * 00 23 * * * 30 23 * * * 35 23 * * * 45 23 * * *
-  workflow_dispatch: null
+    - cron: '00 00 * * *'
+    - cron: '00 02 * * *'
+    - cron: '00 03 * * *'
+    - cron: '30 03 * * *'
+    - cron: '35 03 * * *'
+    - cron: '40 03 * * *'
+    - cron: '11 04 * * *'
+    - cron: '00 13 * * *'
+    - cron: '00 14 * * *'
+    - cron: '30 16 * * *'
+    - cron: '00 17 * * *'
+    - cron: '35 20 * * *'
+    - cron: '45 21 * * *'
+    - cron: '00 22 * * *'
+    - cron: '00 23 * * *'
+    - cron: '30 23 * * *'
+    - cron: '35 23 * * *'
+    - cron: '45 23 * * *'
+  workflow_dispatch:
+
 jobs:
   run-scheduler:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - name: Install dependencies
-        run: npm ci --omit=dev
-      - name: Run scheduler
-        run: node scheduler.js
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+
+    - name: Install dependencies
+      run: npm ci --omit=dev
+
+    - name: Run scheduler
+      run: node scheduler.js
