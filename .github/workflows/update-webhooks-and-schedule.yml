@@ -40,10 +40,12 @@ jobs:
 
     - name: Commit and push changes
       if: steps.check_changes.outputs.changed == 'true'
+      env:
+        GH_PAT: ${{ secrets.GH_PAT }}
       run: |
         git config user.name "github-actions"
         git config user.email "actions@github.com"
         git add webhooks.json .github/workflows/scheduler.yml
         git commit -m "Update webhooks.json and scheduler workflow"
-        git remote set-url origin https://x-access-token:${ secrets.GH_PAT }@github.com/Jscott-2k/auto-message-scheduler.git
+        git remote set-url origin https://x-access-token:${GH_PAT}@github.com/Jscott-2k/auto-message-scheduler.git
         git push origin main
