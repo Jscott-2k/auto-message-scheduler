@@ -25,7 +25,7 @@ This project schedules and sends Discord webhook messages based on user-defined 
 ```bash
 git clone https://github.com/your-username/auto-message-scheduler.git
 cd auto-message-scheduler
-
+```
 
 ### 3. Add `webhooks.json`
 
@@ -44,7 +44,7 @@ You can find the GitHub Actions workflow in `.github/workflows/scheduler.yml`. I
 
 ```bash
 npm install
-
+```
 ---
 
 ## 🛠 Customization
@@ -58,7 +58,7 @@ You can also generate the GitHub Actions workflow dynamically based on `webhooks
 
 ```bash
 npm run generate-scheduler
-
+```
 
 ### 4. webhooks.json format
 
@@ -92,3 +92,4 @@ The `webhooks.json` file should be an array of user entries. Each entry must inc
     ]
   }
 ]
+```
