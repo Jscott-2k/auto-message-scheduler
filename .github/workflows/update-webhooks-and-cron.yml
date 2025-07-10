@@ -28,29 +28,16 @@ jobs:
       run: |
         gdown --id 12RANwESLxYGsxT53SbHVK4XmjOcWipYI --no-cookies --output webhooks.json
 
-    - name: Generate cron-times.txt from webhooks
-      run: node generate-cron-times.js
+    - name: Generate scheduler.yml from webhooks
+      run: node generate-scheduler-yml.js  # your updated script name
 
-    - name: Read cron times into output
-      id: cron_times
-      run: |
-        cron=$(cat .cron-times.txt | tr '\n' ' ')
-        echo "cron=$cron" >> $GITHUB_OUTPUT
-
-    - name: Update scheduler.yml schedule
-      uses: gr2m/set-cron-schedule-action@v1
-      with:
-        token: ${{ secrets.GH_PAT }}
-        workflow: .github/workflows/scheduler.yml
-        cron: ${{ steps.cron_times.outputs.cron }}
-
-    - name: Commit updated webhooks.json and .cron-times.txt
+    - name: Commit updated webhooks.json and scheduler.yml
       env:
         GH_PAT: ${{ secrets.GH_PAT }}
       run: |
         git config user.name "github-actions"
         git config user.email "actions@github.com"
-        git add webhooks.json .cron-times.txt
-        git diff --cached --quiet || git commit -m "Update webhooks.json or .cron-times.txt"
+        git add webhooks.json .github/workflows/scheduler.yml
+        git diff --cached --quiet || git commit -m "Update webhooks.json and scheduler.yml"
         git remote set-url origin https://x-access-token:${GH_PAT}@github.com/Jscott-2k/auto-message-scheduler.git
-        git push origin main
+        git push origin main 
