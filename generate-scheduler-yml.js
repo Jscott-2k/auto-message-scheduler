@@ -26,13 +26,13 @@ function getUniqueTimes() {
   return [...times].sort();
 }
 
-// Convert "HH:MM" to GitHub cron format
+// Convert "HH:MM" to GitHub cron format string
 function timeToCron(t) {
   const [hh, mm] = t.split(':');
   return `    - cron: '${mm} ${hh} * * *'`;
 }
 
-// Generate scheduler.yml content
+// Generate the full scheduler.yml content
 function generateYml(times) {
   return `name: Auto Message Scheduler
 
@@ -57,13 +57,6 @@ jobs:
     - name: Install dependencies
       run: npm ci --omit=dev
 
-    - name: Install gdown
-      run: pip install --no-cache-dir gdown
-
-    - name: Download webhooks.json
-      run: |
-        gdown --id 12RANwESLxYGsxT53SbHVK4XmjOcWipYI --no-cookies --output webhooks.json
-
     - name: Run scheduler
       run: node scheduler.js
 `;
@@ -71,12 +64,17 @@ jobs:
 
 function main() {
   const times = getUniqueTimes();
+  if (times.length === 0) {
+    console.error('No valid schedule times found in webhooks.json');
+    process.exit(1);
+  }
+
   const yml = generateYml(times);
 
   // Ensure directory exists
   fs.mkdirSync(path.dirname(OUTPUT_FILE), { recursive: true });
 
-  fs.writeFileSync(OUTPUT_FILE, yml);
+  fs.writeFileSync(OUTPUT_FILE, yml, 'utf8');
   console.log(`Generated ${OUTPUT_FILE} with ${times.length} scheduled times.`);
 }
 

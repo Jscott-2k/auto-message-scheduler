@@ -1,0 +1,50 @@
+name: Update Webhooks and Schedule
+
+on:
+  workflow_dispatch:  # manual or API trigger only
+
+jobs:
+  update-webhooks:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+
+    - name: Install dependencies
+      run: npm ci --omit=dev
+
+    - name: Install gdown
+      run: pip install --no-cache-dir gdown
+
+    - name: Download latest webhooks.json from Google Drive
+      run: |
+        gdown --id 12RANwESLxYGsxT53SbHVK4XmjOcWipYI --no-cookies --output webhooks.json
+
+    - name: Generate scheduler workflow (if applicable)
+      run: npm run generate-scheduler
+
+    - name: Check for changes
+      id: check_changes
+      run: |
+        if git diff --quiet webhooks.json .github/workflows/scheduler.yml; then
+          echo "changed=false" >> $GITHUB_OUTPUT
+        else
+          echo "changed=true" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Commit and push changes
+      if: steps.check_changes.outputs.changed == 'true'
+      run: |
+        git config user.name "github-actions"
+        git config user.email "actions@github.com"
+        git add webhooks.json .github/workflows/scheduler.yml
+        git commit -m "Update webhooks.json and scheduler workflow"
+        git push
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
