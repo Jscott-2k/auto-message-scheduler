@@ -26,7 +26,7 @@ jobs:
 
     - name: Download latest webhooks.json from Google Drive
       run: |
-        gdown --id 12RANwESLxYGsxT53SbHVK4XmjOcWipYI --no-cookies --output webhooks.json
+        gdown --id 10NPS386L20ywOvXu7fLPxrU5THrgEMIR --no-cookies --output webhooks.json
 
     - name: Generate scheduler.yml from webhooks
       run: node generate-scheduler-yml.js  # your updated script name
