@@ -1,31 +1,32 @@
 #!/usr/bin/env node
-// scheduler.js – run at a specific time passed as HH:MM
-// Usage:   node scheduler.js 09:11
-
 'use strict';
 
 const fs = require('fs');
 const { WebhookClient } = require('discord.js');
 
-const now = new Date();
-const scheduledTime = now.toISOString().slice(11, 16); // HH:MM UTC
-
-// Load webhooks.json
-let users;
-try {
-  users = JSON.parse(fs.readFileSync('./webhooks.json', 'utf8'));
-} catch (err) {
-  console.error('Could not read webhooks.json:', err.message);
-  process.exit(1);
+function getHHMM(date) {
+  return date.toISOString().slice(11, 16);
 }
 
-console.log(`Running scheduler for ${scheduledTime} UTC`);
-let sent = 0;
+async function runScheduler() {
+  const now = new Date();
+  const current = getHHMM(now);
+  const previous = getHHMM(new Date(now.getTime() - 60000)); // 1 minute before
+  const window = new Set([current, previous]);
 
-// Send messages scheduled for this time
-(async () => {
+  let users;
+  try {
+    users = JSON.parse(fs.readFileSync('./webhooks.json', 'utf8'));
+  } catch (err) {
+    console.error('Could not read webhooks.json:', err.message);
+    process.exit(1);
+  }
+
+  console.log(`Running scheduler for ${[...window].join(', ')} UTC`);
+  let sent = 0;
+
   for (const user of users) {
-    const matches = (user.schedules || []).filter(s => s.time === scheduledTime);
+    const matches = (user.schedules || []).filter(s => window.has(s.time));
     if (!matches.length) continue;
 
     const hook = new WebhookClient({ id: user.id, token: user.token });
@@ -34,19 +35,21 @@ let sent = 0;
       try {
         await hook.send({
           content: message,
-          username: user.username ?? undefined,
-          avatarURL: user.avatarURL ?? undefined,
+          username: user.username,
+          avatarURL: user.avatarURL,
           allowedMentions: { parse: [] }
         });
-        console.log(`Sent message for ${user.username} at ${scheduledTime}`);
+        console.log(`Sent message for ${user.username || user.id} at ${current}`);
         sent++;
       } catch (err) {
-        console.error(`Failed to send for ${user.username}:`, err.message);
+        console.error(`Failed to send for ${user.username || user.id}:`, err.message);
       }
     }
 
     hook.destroy();
   }
 
-  if (!sent) console.log('No messages scheduled for this time.');
-})();
+  if (!sent) console.log('No messages scheduled in this window.');
+}
+
+runScheduler();

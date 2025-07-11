@@ -17,13 +17,16 @@ function getUniqueTimes() {
   const times = new Set();
   for (const user of webhooks) {
     for (const sched of user.schedules || []) {
-      if (/^\d{2}:\d{2}$/.test(sched.time)) {
-        times.add(sched.time);
-      }
+      const t = sched.time;
+      if (/^\d{2}:\d{2}$/.test(t)) times.add(t);
     }
   }
 
-  return [...times].sort();
+  return [...times].sort((a, b) => {
+    const [ah, am] = a.split(':').map(Number);
+    const [bh, bm] = b.split(':').map(Number);
+    return ah !== bh ? ah - bh : am - bm;
+  });
 }
 
 // Convert "HH:MM" to GitHub cron format string (MM HH * * *)
@@ -43,6 +46,9 @@ ${times.map(t => `    - cron: '${timeToCron(t)}'`).join('\n')}
 jobs:
   run-scheduler:
     runs-on: ubuntu-latest
+    concurrency:
+      group: scheduler
+      cancel-in-progress: false
 
     steps:
     - name: Checkout code
@@ -70,10 +76,10 @@ function main() {
 
   const yml = generateYml(times);
 
-  // Ensure directory exists
   fs.mkdirSync(path.dirname(OUTPUT_FILE), { recursive: true });
-
   fs.writeFileSync(OUTPUT_FILE, yml, 'utf8');
-  console.log(`Generated ${OUTPUT_FILE} with ${times.length} scheduled times.`);
+
+  console.log(`✅ Generated ${OUTPUT_FILE} with ${times.length} scheduled times.`);
 }
+
 main();
