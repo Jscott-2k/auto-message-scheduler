@@ -54,4 +54,7 @@ async function runScheduler() {
   if (!sent) console.log('No messages scheduled in this window.');
 }
 
-runScheduler();
+runScheduler().catch(err => {
+  console.error('Scheduler crashed:', err);
+  process.exit(1);
+});
