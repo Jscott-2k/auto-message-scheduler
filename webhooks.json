@@ -83,6 +83,14 @@
       {
         "time": "20:00",
         "message": "3:00pm test"
+      },
+      {
+        "time": "04:30",
+        "message": "11:30pm Test"
+      },
+      {
+        "time": "08:00",
+        "message": "Graveyard Hours!"
       }
     ]
   }
