@@ -11,8 +11,8 @@ function getHHMM(date) {
 async function runScheduler() {
   const now = new Date();
   const window = new Set(
-    Array.from({ length: 21 }, (_, i) =>
-      getHHMM(new Date(now.getTime() - 600000 + i * 60000)) // -10 to +10 minutes
+    Array.from({ length: 11 }, (_, i) =>
+      getHHMM(new Date(now.getTime() - 5 * 60000 + i * 60000)) // -5 to +5 minutes
     )
   );
 
