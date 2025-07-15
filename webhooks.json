@@ -5,83 +5,83 @@
     "username": "reugoathbreaker",
     "schedules": [
       {
-        "time": "08:00",
+        "time": "13:00",
         "message": "Morning Boss"
       },
       {
-        "time": "21:00",
+        "time": "02:00",
         "message": "G'night boss"
       },
       {
-        "time": "09:00",
+        "time": "14:00",
         "message": "Time to roll"
       },
       {
-        "time": "15:35",
+        "time": "20:35",
         "message": "3:35pm test"
       },
       {
-        "time": "16:45",
+        "time": "21:45",
         "message": "Good afternoon! :)"
       },
       {
-        "time": "23:11",
+        "time": "04:11",
         "message": "Good night!"
       },
       {
-        "time": "17:00",
+        "time": "22:00",
         "message": "5:50pm test"
       },
       {
-        "time": "18:00",
+        "time": "23:00",
         "message": "6:00pm test"
       },
       {
-        "time": "18:45",
+        "time": "23:45",
         "message": "6:45pm test"
       },
       {
-        "time": "19:00",
+        "time": "00:00",
         "message": "7:00pm test"
       },
       {
-        "time": "22:00",
+        "time": "03:00",
         "message": "Automatic Message"
       },
       {
-        "time": "22:30",
+        "time": "03:30",
         "message": "Automatic Message"
       },
       {
-        "time": "11:30",
+        "time": "16:30",
         "message": "Automatic Message"
       },
       {
-        "time": "12:00",
+        "time": "17:00",
         "message": "Its high noon"
       },
       {
-        "time": "18:30",
+        "time": "23:30",
         "message": "6:30 test"
       },
       {
-        "time": "18:35",
+        "time": "23:35",
         "message": "6:35 test"
       },
       {
-        "time": "22:35",
+        "time": "03:35",
         "message": "10:35pm test"
       },
       {
-        "time": "22:40",
+        "time": "03:40",
         "message": "10:40 pm test"
       },
       {
-        "time": "14:30",
+        "time": "19:30",
         "message": "tooth hurty"
       },
       {
-        "time": "15:00",
+        "time": "20:00",
         "message": "3:00pm test"
       }
     ]
