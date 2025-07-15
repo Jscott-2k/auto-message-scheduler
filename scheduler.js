@@ -10,9 +10,11 @@ function getHHMM(date) {
 
 async function runScheduler() {
   const now = new Date();
-  const current = getHHMM(now);
-  const previous = getHHMM(new Date(now.getTime() - 60000)); // 1 minute before
-  const window = new Set([current, previous]);
+  const window = new Set([
+    getHHMM(now),
+    getHHMM(new Date(now.getTime() - 60000)),
+    getHHMM(new Date(now.getTime() - 120000))
+  ]);
 
   let users;
   try {
