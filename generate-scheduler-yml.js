@@ -1,11 +1,12 @@
 const fs = require('fs');
 const path = require('path');
+const { DateTime } = require('luxon');
 
 const WEBHOOKS_FILE = path.resolve('./webhooks.json');
 const OUTPUT_FILE = path.resolve('./.github/workflows/scheduler.yml');
 
-// Extract and sort unique HH:MM times from webhooks.json
-function getUniqueTimes() {
+// Collect and convert all user-local times to UTC times
+function getUniqueUtcTimes() {
   let webhooks;
   try {
     webhooks = JSON.parse(fs.readFileSync(WEBHOOKS_FILE, 'utf8'));
@@ -14,22 +15,32 @@ function getUniqueTimes() {
     process.exit(1);
   }
 
-  const times = new Set();
+  const utcTimes = new Set();
+
   for (const user of webhooks) {
-    for (const sched of user.schedules || []) {
+    if (!user.timezone || !user.schedules) continue;
+
+    for (const sched of user.schedules) {
       const t = sched.time;
-      if (/^\d{2}:\d{2}$/.test(t)) times.add(t);
+      if (!/^\d{2}:\d{2}$/.test(t)) continue;
+
+      const [hour, minute] = t.split(':').map(Number);
+      const local = DateTime.fromObject({ hour, minute }, { zone: user.timezone });
+      const utc = local.toUTC();
+
+      const utcHHMM = utc.toFormat('HH:mm');
+      utcTimes.add(utcHHMM);
     }
   }
 
-  return [...times].sort((a, b) => {
+  return [...utcTimes].sort((a, b) => {
     const [ah, am] = a.split(':').map(Number);
     const [bh, bm] = b.split(':').map(Number);
     return ah !== bh ? ah - bh : am - bm;
   });
 }
 
-// Convert "HH:MM" to GitHub cron format string (MM HH * * *)
+// Convert "HH:MM" to GitHub cron format
 function timeToCron(t) {
   const [hh, mm] = t.split(':');
   return `${mm} ${hh} * * *`;
@@ -68,18 +79,17 @@ jobs:
 }
 
 function main() {
-  const times = getUniqueTimes();
+  const times = getUniqueUtcTimes();
   if (times.length === 0) {
     console.error('No valid schedule times found in webhooks.json');
     process.exit(1);
   }
 
   const yml = generateYml(times);
-
   fs.mkdirSync(path.dirname(OUTPUT_FILE), { recursive: true });
   fs.writeFileSync(OUTPUT_FILE, yml, 'utf8');
 
-  console.log(`✅ Generated ${OUTPUT_FILE} with ${times.length} scheduled times.`);
+  console.log(`✅ Generated ${OUTPUT_FILE} with ${times.length} UTC times.`);
 }
 
 main();
