@@ -6,99 +6,99 @@
     "timezone": "America/New_York",
     "schedules": [
       {
-        "time": "13:00",
+        "time": "08:00",
         "message": "Morning Boss"
       },
       {
-        "time": "02:00",
+        "time": "21:00",
         "message": "G'night boss"
       },
       {
-        "time": "14:00",
+        "time": "09:00",
         "message": "Time to roll"
       },
       {
-        "time": "20:35",
+        "time": "15:35",
         "message": "3:35pm test"
       },
       {
-        "time": "21:45",
+        "time": "16:45",
         "message": "Good afternoon! :)"
       },
       {
-        "time": "04:11",
+        "time": "23:11",
         "message": "Good night!"
       },
       {
-        "time": "22:00",
+        "time": "17:00",
         "message": "5:50pm test"
       },
       {
-        "time": "23:00",
+        "time": "18:00",
         "message": "6:00pm test"
       },
       {
-        "time": "23:45",
+        "time": "18:45",
         "message": "6:45pm test"
       },
       {
-        "time": "00:00",
+        "time": "19:00",
         "message": "7:00pm test"
       },
       {
-        "time": "03:00",
+        "time": "22:00",
         "message": "Automatic Message"
       },
       {
-        "time": "03:30",
+        "time": "22:30",
         "message": "Automatic Message"
       },
       {
-        "time": "16:30",
+        "time": "11:30",
         "message": "Automatic Message"
       },
       {
-        "time": "17:00",
+        "time": "12:00",
         "message": "Its high noon"
       },
       {
-        "time": "23:30",
+        "time": "18:30",
         "message": "6:30 test"
       },
       {
-        "time": "23:35",
+        "time": "18:35",
         "message": "6:35 test"
       },
       {
-        "time": "03:35",
+        "time": "22:35",
         "message": "10:35pm test"
       },
       {
-        "time": "03:40",
+        "time": "22:40",
         "message": "10:40 pm test"
       },
       {
-        "time": "19:30",
+        "time": "14:30",
         "message": "tooth hurty"
       },
       {
-        "time": "20:00",
+        "time": "15:00",
         "message": "3:00pm test"
       },
       {
-        "time": "04:30",
+        "time": "23:30",
         "message": "11:30pm Test"
       },
       {
-        "time": "08:00",
+        "time": "03:00",
         "message": "Graveyard Hours!"
       },
       {
-        "time": "15:00",
+        "time": "10:00",
         "message": "10:00am Test"
       },
       {
-        "time": "15:30",
+        "time": "10:30",
         "message": "10:30am Test"
       }
     ]
