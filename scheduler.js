@@ -31,7 +31,7 @@ async function runScheduler() {
 
     const window = new Set(
       Array.from({ length: 11 }, (_, i) =>
-        nowLocal.minus({ minutes: 5 }).plus({ minutes: i }).toFormat('HH:mm')
+        nowUtc.minus({ minutes: 5 }).plus({ minutes: i }).toFormat('HH:mm')
       )
     );
 
