@@ -92,6 +92,14 @@
       {
         "time": "08:00",
         "message": "Graveyard Hours!"
+      },
+      {
+        "time": "15:00",
+        "message": "10:00am Test"
+      },
+      {
+        "time": "15:30",
+        "message": "10:30am Test"
       }
     ]
   }
