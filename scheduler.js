@@ -3,19 +3,13 @@
 
 const fs = require('fs');
 const { WebhookClient } = require('discord.js');
+const { DateTime } = require('luxon');
 
-function getHHMM(date) {
-  return date.toISOString().slice(11, 16);
+function logError(user, err) {
+  console.error(`Failed to send for ${user.username || user.id}:`, err.message);
 }
 
 async function runScheduler() {
-  const now = new Date();
-  const window = new Set(
-    Array.from({ length: 11 }, (_, i) =>
-      getHHMM(new Date(now.getTime() - 5 * 60000 + i * 60000)) // -5 to +5 minutes
-    )
-  );
-
   let users;
   try {
     users = JSON.parse(fs.readFileSync('./webhooks.json', 'utf8'));
@@ -24,10 +18,25 @@ async function runScheduler() {
     process.exit(1);
   }
 
-  console.log(`Running scheduler for ${[...window].join(', ')} UTC`);
   let sent = 0;
 
   for (const user of users) {
+    if (!user.timezone) {
+      console.error(`User ${user.username || user.id} missing timezone`);
+      continue;
+    }
+
+    const nowUtc = DateTime.utc();
+    const nowLocal = nowUtc.setZone(user.timezone);
+
+    const window = new Set(
+      Array.from({ length: 11 }, (_, i) =>
+        nowLocal.minus({ minutes: 5 }).plus({ minutes: i }).toFormat('HH:mm')
+      )
+    );
+
+    console.log(`Running scheduler for ${user.username || user.id} window: ${[...window].join(', ')} ${user.timezone}`);
+
     const matches = (user.schedules || []).filter(s => window.has(s.time));
     if (!matches.length) continue;
 
@@ -41,14 +50,18 @@ async function runScheduler() {
           avatarURL: user.avatarURL,
           allowedMentions: { parse: [] }
         });
-        console.log(`Sent message for ${user.username || user.id} at ${current}`);
+        console.log(`Sent message for ${user.username || user.id} at ${nowLocal.toISO()}`);
         sent++;
       } catch (err) {
-        console.error(`Failed to send for ${user.username || user.id}:`, err.message);
+        logError(user, err);
       }
     }
 
-    hook.destroy();
+    try {
+      hook.destroy();
+    } catch (err) {
+      console.error(`Failed to destroy hook for ${user.username || user.id}:`, err.message);
+    }
   }
 
   if (!sent) console.log('No messages scheduled in this window.');
