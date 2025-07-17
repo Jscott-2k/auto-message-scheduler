@@ -2,7 +2,7 @@
   {
     "id": "1390317874932879490",
     "token": "nySctf50QltJYtk-elnwW2R8v_8UtHOefhsqMskgVXffyriHR8TDfkPWOi5pLkrmBNp9",
-    "username": "reugoathbreaker",
+    "username": "Squiddy",
     "timezone": "America/New_York",
     "schedules": [
       {
@@ -31,7 +31,7 @@
       },
       {
         "time": "17:00",
-        "message": "5:50pm test"
+        "message": "5:00pm test"
       },
       {
         "time": "18:00",
@@ -47,15 +47,15 @@
       },
       {
         "time": "22:00",
-        "message": "Automatic Message"
+        "message": "10:00pm test"
       },
       {
         "time": "22:30",
-        "message": "Automatic Message"
+        "message": "10:30pm test"
       },
       {
         "time": "11:30",
-        "message": "Automatic Message"
+        "message": "11:30am test"
       },
       {
         "time": "12:00",
@@ -63,7 +63,7 @@
       },
       {
         "time": "18:30",
-        "message": "6:30 test"
+        "message": "6:30pm test"
       },
       {
         "time": "18:35",
