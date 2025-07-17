@@ -29,7 +29,7 @@ async function runScheduler() {
     const nowUtc = DateTime.utc();
     const nowLocal = nowUtc.setZone(user.timezone);
     
-    // Build UTC window from nowUtc -15 to +15 minutes (already in UTC)
+    // Build UTC window from nowUtc -15 to +15 minutes
     const window = new Set(
       Array.from({ length: 31 }, (_, i) =>
         nowUtc.minus({ minutes: 15 }).plus({ minutes: i }).toFormat("HH:mm")

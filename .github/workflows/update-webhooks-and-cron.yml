@@ -32,7 +32,7 @@ jobs:
         gdown --id 10NPS386L20ywOvXu7fLPxrU5THrgEMIR --no-cookies --output webhooks.json
 
     - name: Generate scheduler.yml from webhooks
-      run: node generate-scheduler-yml.js  # your updated script name
+      run: node generate-scheduler-yml.js
 
     - name: Commit updated webhooks.json and scheduler.yml
       env:
