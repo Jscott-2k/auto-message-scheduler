@@ -6,7 +6,10 @@ on:
 jobs:
   update-webhooks:
     runs-on: ubuntu-latest
-
+    concurrency:
+      group: update-webhooks
+      cancel-in-progress: false
+      
     steps:
     - name: Checkout repo
       uses: actions/checkout@v4
