@@ -4,7 +4,6 @@ This project schedules and sends Discord webhook messages based on user-defined 
 
 - Node.js for the scheduler logic  
 - Discord webhooks to send messages  
-- Google Apps Script to collect and format user data 
 - GitHub Actions for automatic scheduling and execution  
 
 ---
@@ -39,11 +38,11 @@ You do not need to manually convert anything to UTC.
 ### 4. (Optional) Collect user preferences with Google Form
 
 To collect user input (e.g., timezone, preferred message time), you can use a Google Form linked to a Google Sheet. This isn't required for the app to work, but it helps automate gathering webhook data.
-I use a Google Apps Script to convert form responses into the required webhooks.json format. This app script also is scheduled to run every 15 minutes and runs the update-webhooks-and-cron.yml workflow.
+I use a Google Apps Script to convert form responses into the required webhooks.json format. This app script also is scheduled to run every 15 minutes and runs the `.github/workflows/update-webhooks-and-cron.yml` workflow.
 
 ---
 
-## 🕒 How Scheduling Works
+## How Scheduling Works
 
 GitHub Actions runs the scheduler using cron jobs defined in .github/workflows/scheduler.yml.
 
@@ -54,18 +53,8 @@ You can automatically generate or update the cron schedule by running:
 ```bash
 npm run generate-scheduler
 ```
+
 This reads your webhooks.json and creates an updated .github/workflows/scheduler.yml based on all unique times.
-
----
-
-### 2. Install dependencies
-
-```bash
-npm install
-```
----
-
-## Customization
 
 To change or update the scheduled times:
 1. Modify `webhooks.json` with updated times/messages.
@@ -73,10 +62,6 @@ To change or update the scheduled times:
 3. Commit and push the changes to GitHub.
 
 GitHub Actions will now automatically send messages at those times.
-
-```bash
-npm run generate-scheduler
-```
 
 ---
 ### webhooks.json format
